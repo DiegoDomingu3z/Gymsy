@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen'
 // Creates each stack
 const Stack = createNativeStackNavigator();
 
+
 export default function App() {
   return (
     // init navigation's, add all screens here
