@@ -10,6 +10,7 @@ import { getAnalytics } from "firebase/analytics";
 import { Provider } from 'react-redux';
 import { store } from './store'
 import SignUp from './screens/SignUp';
+import SignIn from './screens/SignIn';
 // Creates each stack
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Navigator>
           <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='SignIn' component={SignIn} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
