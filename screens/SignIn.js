@@ -7,9 +7,22 @@ import { Vibration } from 'react-native'
 import { Formik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { logInAccount } from '../store/Account'
+import { api } from '../services/ApiService'
 const SignIn = () => {
     const img = { uri: 'https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }
     const dispatch = useDispatch()
+    const work = async (data) => {
+        try {
+            const res = await api.post('account/login', data)
+                .then(res => res.data)
+            console.log("is this working")
+            console.log(res)
+        } catch (error) {
+            console.log(error)
+        }
+
+
+    }
     return (
         <ImageBackground source={img} resizeMode={'cover'} className="h-screen">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -20,7 +33,9 @@ const SignIn = () => {
                             <Formik
                                 initialValues={{ email: '', password: '' }}
                                 onSubmit={async (values) => {
-                                    dispatch(logInAccount(values))
+                                    // dispatch(logInAccount(values))
+                                    work(values)
+                                    console.log(values)
                                     Vibration.vibrate(100)
                                 }}
                             >

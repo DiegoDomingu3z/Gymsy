@@ -18,7 +18,7 @@ export const createAccount = createAsyncThunk(
 
 export const logInAccount = createAsyncThunk(
     'account/login',
-    async (userData) => {
+    async (userData, thunkAPI) => {
         try {
             const res = await api.post('account/login', userData)
                 .then(res => res.data)
