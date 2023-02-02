@@ -3,20 +3,43 @@ import {
     StyleSheet, TouchableWithoutFeedback, Keyboard
 } from 'react-native'
 import React from 'react'
-import { Vibration } from 'react-native'
+import { Vibration, Alert } from 'react-native'
 import { Formik } from 'formik'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logInAccount } from '../store/Account'
 import { api } from '../services/ApiService'
+import { useNavigation } from '@react-navigation/native'
+import HomeScreen from './HomeScreen'
 const SignIn = () => {
     const img = { uri: 'https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }
     const dispatch = useDispatch()
+    const navigation = useNavigation()
+    const alertUser = () => {
+        Alert.alert('Incorrect Password', 'The password or email you entered is incorrect', [
+            {
+                text: 'Ok',
+                style: 'cancel',
+            },
+        ])
+    }
     const work = async (data) => {
         try {
-            const res = await api.post('account/login', data)
-                .then(res => res.data)
-            console.log("is this working")
-            console.log(res)
+            const request = await dispatch(logInAccount(data))
+            switch (request.payload) {
+                case "Request failed with status code 400":
+                    alertUser()
+                    break;
+                case "Request failed with status code 401":
+                    alertUser()
+                    break;
+                case "Request failed with status code 403":
+                    alertUser()
+                    break;
+                default:
+                    navigation.navigate("Home")
+                    break;
+            }
+            console.log(request.payload)
         } catch (error) {
             console.log(error)
         }

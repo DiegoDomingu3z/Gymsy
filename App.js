@@ -22,7 +22,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
-          <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name='SignIn' component={SignIn} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>

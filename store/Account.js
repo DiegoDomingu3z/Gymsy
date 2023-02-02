@@ -18,7 +18,7 @@ export const createAccount = createAsyncThunk(
 
 export const logInAccount = createAsyncThunk(
     'account/login',
-    async (userData, thunkAPI) => {
+    async (userData, { dispatch }) => {
         try {
             const res = await api.post('account/login', userData)
                 .then(res => res.data)
@@ -36,7 +36,8 @@ export const AccountSlice = createSlice({
     name: 'account',
     initialState: {
         activeAccount: {},
-        loading: false
+        loading: false,
+        authToken: ''
     },
     reducers: {
 
@@ -60,7 +61,7 @@ export const AccountSlice = createSlice({
             })
             .addCase(logInAccount.fulfilled, (state, action) => {
                 state.loading = false
-                state.activeAccount = action.payload
+                state.authToken = action.payload
             })
             .addCase(logInAccount.rejected, (state, error) => {
                 state.loading = true
