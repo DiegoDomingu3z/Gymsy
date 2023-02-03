@@ -7,9 +7,8 @@ import { Vibration, Alert } from 'react-native'
 import { Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { logInAccount } from '../store/Account'
-import { api } from '../services/ApiService'
 import { useNavigation } from '@react-navigation/native'
-import HomeScreen from './HomeScreen'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignIn = () => {
     const img = { uri: 'https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }
     const dispatch = useDispatch()
@@ -36,6 +35,7 @@ const SignIn = () => {
                     alertUser()
                     break;
                 default:
+                    AsyncStorage.setItem('@authToken', request.payload)
                     navigation.navigate("Home")
                     break;
             }
@@ -86,13 +86,5 @@ const SignIn = () => {
     )
 
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//     },
-// })
-
-
 
 export default SignIn
