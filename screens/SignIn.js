@@ -23,6 +23,7 @@ const SignIn = () => {
     }
     const work = async (data) => {
         try {
+            // @ts-ignore
             const request = await dispatch(logInAccount(data))
             switch (request.payload) {
                 case "Request failed with status code 400":
@@ -36,6 +37,7 @@ const SignIn = () => {
                     break;
                 default:
                     AsyncStorage.setItem('@authToken', request.payload)
+                    // @ts-ignore
                     navigation.navigate("Home")
                     break;
             }
