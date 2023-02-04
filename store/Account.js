@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import { api } from "../services/ApiService";
+
+
+
 
 
 export const createAccount = createAsyncThunk(
@@ -35,13 +40,15 @@ export const getAccount = createAsyncThunk(
     'account/getaccount',
     async (authToken) => {
         try {
-            const head = {
-                'Authorization': `${authToken}`,
-            }
-            const res = await api.get('account/myaccount', head)
+            const res = await api.get('account/myaccount', {
+                headers: {
+                    Authorization: `${authToken}`
+                }
+            })
                 .then((res) => res.data)
-            console.log(res.data)
+            console.log(res)
         } catch (error) {
+            console.log(error.message)
             return error.message
         }
     }

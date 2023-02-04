@@ -25,7 +25,8 @@ const HomeScreen = () => {
             }
         }
         getData()
-        dispatch(getAccount())
+        // @ts-ignore
+        dispatch(getAccount(token))
     }, [])
 
 

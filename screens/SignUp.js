@@ -9,7 +9,9 @@ const SignUp = () => {
         <View className='flex-1'>
             <ImageBackground source={img} resizeMode="cover" className='h-screen' >
                 <View className='flex flex-row items-center h-screen mt-80 space-x-3 justify-center'>
-                    <TouchableOpacity onPress={() => navigation.navigate("SignIn")} className='rounded-lg bg-red-600 mt-20 '>
+                    <TouchableOpacity onPress={() => navigation.navigate(
+                        // @ts-ignore
+                        "SignIn")} className='rounded-lg bg-red-600 mt-20 '>
                         <Text className='p-4 px-14 text-lg font-bold text-white'>Login In</Text>
                     </TouchableOpacity>
                     <TouchableOpacity className='bg-black mt-20 rounded-lg'>
