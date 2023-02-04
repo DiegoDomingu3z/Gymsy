@@ -40,13 +40,14 @@ export const getAccount = createAsyncThunk(
     'account/getaccount',
     async (authToken) => {
         try {
+            console.log(authToken, "this is the token being sent")
             const res = await api.get('account/myaccount', {
                 headers: {
                     Authorization: `${authToken}`
                 }
             })
                 .then((res) => res.data)
-            console.log(res)
+            console.log(res, " in this bitch")
         } catch (error) {
             console.log(error.message)
             return error.message
