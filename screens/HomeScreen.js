@@ -1,14 +1,17 @@
 import { View, Text, SafeAreaView } from 'react-native'
 import * as React from "react"
 import { useEffect, useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAccount } from '../store/Account';
+import { getAccount, logout } from '../store/Account';
+import { useNavigation } from '@react-navigation/native';
 
 
 const HomeScreen = () => {
     const dispatch = useDispatch()
     const [token, setToken] = useState('')
+    const navigation = useNavigation()
+    const request = useSelector((state) => state.account.errorCode)
 
     useEffect(() => {
         const getData = async () => {
@@ -16,8 +19,12 @@ const HomeScreen = () => {
                 const value = await AsyncStorage.getItem('@authToken')
                 if (value !== null) {
                     setToken(value)
-                    // @ts-ignore
                     dispatch(getAccount(value))
+                    if (request == 'ERR_BAD_REQUEST') {
+                        console.log(request)
+                        AsyncStorage.removeItem('@authToken')
+                        navigation.navigate("SignIn")
+                    }
                 }
             } catch (e) {
                 console.log(e.message)
@@ -43,7 +50,6 @@ const HomeScreen = () => {
 
                     </View>
                 }
-
             </View>
         </SafeAreaView>
     )
