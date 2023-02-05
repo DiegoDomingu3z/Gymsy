@@ -2,8 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { api } from "../services/ApiService";
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -30,7 +29,7 @@ export const logInAccount = createAsyncThunk(
             console.log(res, "Its working")
             return res
         } catch (error) {
-            return error.message
+            return error
         }
 
     }
@@ -40,17 +39,34 @@ export const getAccount = createAsyncThunk(
     'account/getaccount',
     async (authToken) => {
         try {
-            console.log(authToken, "this is the token being sent")
             const res = await api.get('account/myaccount', {
                 headers: {
                     Authorization: `${authToken}`
                 }
             })
                 .then((res) => res.data)
-            console.log(res, " in this bitch")
+                console.log(res, 'this the data')
+                return res
         } catch (error) {
-            console.log(error.message)
-            return error.message
+            // console.log({successful: false})
+            throw error
+        }
+    }
+)
+
+export const logout = createAsyncThunk(
+    'account/logout',
+    async (authToken) => {
+        try {
+            const res = await api.delete('account/session', {
+                headers: {
+                    Authorization: `${authToken}`
+                }
+            })
+            .then((res) => res.data)
+            return res
+        } catch (error) {
+            return error
         }
     }
 )
@@ -61,7 +77,11 @@ export const AccountSlice = createSlice({
     initialState: {
         account: {},
         loading: false,
-        authToken: ''
+        authToken: '',
+        request: false,
+        errorCode: '',
+        errorMessage: '',
+        logoutCode: ''
     },
     reducers: {
 
@@ -95,10 +115,29 @@ export const AccountSlice = createSlice({
             })
             .addCase(getAccount.fulfilled, (state, action) => {
                 state.loading = false
+                console.log(action, "THIS THE ACTION")
                 state.account = action.payload
+                state.request = true
             })
-            .addCase(getAccount.rejected, (state, error) => {
+            .addCase(getAccount.rejected, (state, action) => {
                 state.loading = true
+                state.request = false
+                state.errorCode = action.error.code
+                state.errorMessage = action.error.message
+            })
+            .addCase(logout.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(logout.fulfilled, (state, action) => {
+                state.loading = false
+                console.log(action, "THIS THE ACTION")
+                state.account = action.payload
+                state.request = true
+            })
+            .addCase(logout.rejected, (state, action) => {
+                state.loading = true
+                state.logoutCode = action.error.code
+                state.errorMessage = action.error.message
             })
 
 
