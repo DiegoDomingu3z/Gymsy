@@ -9,8 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { logInAccount } from '../store/Account'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const SignIn = () => {
-    const img = { uri: 'https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }
+
+const LoggingIn = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation()
     const alertUser = () => {
@@ -49,9 +49,7 @@ const SignIn = () => {
 
     }
     return (
-        <ImageBackground source={img} resizeMode={'cover'} className="h-screen">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-
                 <View className='flex-1 justify-center'>
                     <KeyboardAvoidingView behavior="padding" >
                         <View className='mt-20'>
@@ -83,10 +81,9 @@ const SignIn = () => {
                     </KeyboardAvoidingView>
                 </View>
             </TouchableWithoutFeedback>
-        </ImageBackground>
 
     )
 
 }
 
-export default SignIn
+export default LoggingIn
