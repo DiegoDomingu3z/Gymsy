@@ -29,7 +29,7 @@ export const logInAccount = createAsyncThunk(
             console.log(res, "Its working")
             return res
         } catch (error) {
-            return error
+           throw error
         }
 
     }
@@ -81,7 +81,8 @@ export const AccountSlice = createSlice({
         request: false,
         errorCode: '',
         errorMessage: '',
-        logoutCode: ''
+        logoutCode: '',
+        loginCode: ''
     },
     reducers: {
 
@@ -107,8 +108,10 @@ export const AccountSlice = createSlice({
                 state.loading = false
                 state.authToken = action.payload
             })
-            .addCase(logInAccount.rejected, (state, error) => {
+            .addCase(logInAccount.rejected, (state, action) => {
                 state.loading = true
+                state.loginCode = action.error.code
+                state.errorMessage = action.error.message
             })
             .addCase(getAccount.pending, (state) => {
                 state.loading = true
