@@ -15,6 +15,7 @@ import Login from './screens/Login';
 import AppLightTheme from './themes/appLightTheme';
 import AppDarkTheme from './themes/appDarkTheme';
 import SignUp from './screens/AccountCreation/SignUp';
+import AccountInfo from './screens/AccountCreation/AccountInfo';
 // Creates each stack
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +28,8 @@ const colorScheme = useColorScheme()
       <NavigationContainer theme={colorScheme == 'light' ? AppLightTheme : AppDarkTheme}>
         <Stack.Navigator>
           <Stack.Screen name="Welcome" component={WelcomeScreen} options={{headerShown: false}} />
-          <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false }} />
+          <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false, gestureEnabled: false, gestureDirection: 'horizontal'}} />
+          <Stack.Screen name="AccountInfo" component={AccountInfo} options={{headerShown: false }} />
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
         </Stack.Navigator>
