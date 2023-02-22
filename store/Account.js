@@ -12,7 +12,7 @@ export const createAccount = createAsyncThunk(
         try {
             const res = await api.post('account', userData)
                 .then(res => res.data)
-                console.log(res)
+            console.log(res)
             return res
         } catch (error) {
             throw error
@@ -29,7 +29,7 @@ export const logInAccount = createAsyncThunk(
             console.log(res, "Its working")
             return res
         } catch (error) {
-           throw error
+            throw error
         }
 
     }
@@ -45,8 +45,8 @@ export const getAccount = createAsyncThunk(
                 }
             })
                 .then((res) => res.data)
-                console.log(res, 'this the data')
-                return res
+            console.log(res, 'this the data')
+            return res
         } catch (error) {
             // console.log({successful: false})
             throw error
@@ -63,7 +63,7 @@ export const logout = createAsyncThunk(
                     Authorization: `${authToken}`
                 }
             })
-            .then((res) => res.data)
+                .then((res) => res.data)
             return res
         } catch (error) {
             return error
@@ -97,10 +97,12 @@ export const AccountSlice = createSlice({
             })
             .addCase(createAccount.fulfilled, (state, action) => {
                 state.loading = false
+                state.authToken = action.payload
             })
-            .addCase(createAccount.rejected, (state, error) => {
+            .addCase(createAccount.rejected, (state, action) => {
                 state.loading = true
-                console.log(error)
+                state.errorCode = action.error.code
+                state.errorMessage = action.error.message
             })
             .addCase(logInAccount.pending, (state) => {
                 state.loading = true

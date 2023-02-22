@@ -8,6 +8,6 @@ const boiseUrl = 'http://192.168.1.155:4000/'
 
 
 export const api = axios.create({
-    baseURL: newUrl,
+    baseURL: laptopUrl,
     timeout: 30000
 })
