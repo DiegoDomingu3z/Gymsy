@@ -2,15 +2,16 @@ import {
     View, Text, TextInput, TouchableOpacity, ImageBackground, Button, KeyboardAvoidingView, Platform,
     StyleSheet, TouchableWithoutFeedback, Keyboard
 } from 'react-native'
-import React from 'react'
+import React, {useRef} from 'react'
 import { Vibration, Alert } from 'react-native'
 import { Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
 import { logInAccount } from '../store/Account'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const SignIn = () => {
-    const img = { uri: 'https://images.unsplash.com/photo-1549476464-37392f717541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80' }
+
+
+const LoggingIn = () => {
     const dispatch = useDispatch()
     const navigation = useNavigation()
     const alertUser = () => {
@@ -21,27 +22,24 @@ const SignIn = () => {
             },
         ])
     }
+        const firstInput = useRef(null);
+        const secondInput = useRef(null);
+        const next = (nextInput) => {
+            nextInput.current.focus();
+        }
+    
     const work = async (data) => {
         try {
             // @ts-ignore
             const request = await dispatch(logInAccount(data))
-            switch (request.payload) {
-                case "Request failed with status code 400":
-                    alertUser()
-                    break;
-                case "Request failed with status code 401":
-                    alertUser()
-                    break;
-                case "Request failed with status code 403":
-                    alertUser()
-                    break;
-                default:
-                    AsyncStorage.setItem('@authToken', request.payload)
-                    // @ts-ignore
-                    navigation.navigate("Home")
-                    break;
+            console.log(request.type, 'this the status')
+            if (request.type == "account/login/rejected") {
+                alertUser()
+            }else{
+                AsyncStorage.setItem('@authToken', request.payload) 
+                // @ts-ignore
+                navigation.navigate("Home")
             }
-            console.log(request.payload)
         } catch (error) {
             console.log(error)
         }
@@ -49,12 +47,10 @@ const SignIn = () => {
 
     }
     return (
-        <ImageBackground source={img} resizeMode={'cover'} className="h-screen">
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-
                 <View className='flex-1 justify-center'>
-                    <KeyboardAvoidingView behavior="padding" >
-                        <View className='mt-20'>
+                            <KeyboardAvoidingView behavior="padding" >
+                        <View className='mt-8'>
                             <Formik
                                 initialValues={{ email: '', password: '' }}
                                 onSubmit={async (values) => {
@@ -65,28 +61,27 @@ const SignIn = () => {
                                 }}
                             >
                                 {({ handleChange, handleSubmit, values }) => (
-                                    <View className='mt-20'>
-                                        <TextInput keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Email"
-                                            className='bg-[#35353591] rounded p-4 mx-4 text-white' returnKeyType="next"
+                                    <View className='mt-8'>
+                                        <TextInput onSubmitEditing={() => next(secondInput)} ref={firstInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Email"
+                                            className='bg-[#35353591] rounded p-4 py-5 mx-4 text-white border-slate-600 border-2' returnKeyType="next"
                                             onChangeText={handleChange('email')}
                                             value={values.email} />
-                                        <TextInput keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Password"
+                                        <TextInput ref={secondInput}  keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Password"
                                             value={values.password} onChangeText={handleChange('password')}
-                                            className='bg-[#35353591]  rounded p-4 mx-4 mt-5 mb-7 text-white' secureTextEntry={true} returnKeyType="go" />
-                                        <TouchableOpacity onPress={() => handleSubmit()} className="text-center bg-red-500 mx-4 p-3 rounded">
+                                            className='bg-[#35353591]  rounded p-4 mx-4 py-5 mt-5 mb-7 text-white border-slate-600 border-2' secureTextEntry={true} returnKeyType="go" onSubmitEditing={handleSubmit} />
+                                        <TouchableOpacity onPress={() => handleSubmit()} className="text-center bg-red-500 mx-4 p-3 py-5 rounded">
                                             <Text className='text-center'>Log In</Text>
                                         </TouchableOpacity>
                                     </View>
                                 )}
                             </Formik>
                         </View>
-                    </KeyboardAvoidingView>
+                                </KeyboardAvoidingView>
                 </View>
             </TouchableWithoutFeedback>
-        </ImageBackground>
 
     )
 
 }
 
-export default SignIn
+export default LoggingIn
