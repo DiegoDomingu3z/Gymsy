@@ -66,7 +66,7 @@ const EmailInfo = () => {
     } 
      if (ageComponent == true){
         return(
-           <BirthdayInfo/>
+           <BirthdayInfo email={email} password={password} firstName={firstName} lastName={lastName}/>
         )
     }
  

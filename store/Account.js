@@ -12,10 +12,10 @@ export const createAccount = createAsyncThunk(
         try {
             const res = await api.post('account', userData)
                 .then(res => res.data)
-
+                console.log(res)
             return res
         } catch (error) {
-            return error.message
+            throw error
         }
     }
 )
@@ -100,6 +100,7 @@ export const AccountSlice = createSlice({
             })
             .addCase(createAccount.rejected, (state, error) => {
                 state.loading = true
+                console.log(error)
             })
             .addCase(logInAccount.pending, (state) => {
                 state.loading = true
