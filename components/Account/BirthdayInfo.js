@@ -1,22 +1,18 @@
-import { View, Text, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, StyleSheet, Keyboard, TouchableOpacity, Button } from 'react-native'
-import React, { useRef } from 'react'
-import { useNavigation, useTheme } from '@react-navigation/native';
+import { View, Text, TouchableOpacity } from 'react-native'
+import React from 'react'
+import {  useTheme } from '@react-navigation/native';
 import { useState } from 'react';
 import { Vibration, Alert } from 'react-native'
-import PersonalInfo from './PersonalInfo';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useDispatch } from 'react-redux';
-import { createAccount } from '../../store/Account'
 
-const BirthdayInfo = ({ userEmail, userPassword, userFirstName, userLastName }) => {
+const BirthdayInfo = ({setUserAge,  setAgeComponent, setRegistrationPage }) => {
     const { colors } = useTheme();
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState('')
-    const [showPicker, setShowPicker] = useState(false);
-    const [userAge, setUserAge] = useState(true)
     const dispatch = useDispatch()
-    const alertUser = () => {
-        Alert.alert('Invalid Age', 'You must be 18 years or older', [
+    const alertUser = (title, message) => {
+        Alert.alert(title, message, [
             {
                 text: 'Ok',
                 style: 'cancel',
@@ -25,27 +21,15 @@ const BirthdayInfo = ({ userEmail, userPassword, userFirstName, userLastName }) 
     }
     const Register = () => {
         var userDate = new Date(selectedDate);
-        console.log(userDate)
         let ofAge = new Date(date.getFullYear() - 18, date.getMonth(), date.getDate())
         if (ofAge < userDate.getTime()) {
             console.log("Invalid")
-            setUserAge(true)
-            alertUser()
+            alertUser('Invalid Age','You must be 18 years or older')
             Vibration.vibrate(200)
         } else {
-            console.log("valid")
-            dispatch(createAccount(
-                {
-                    email: userEmail,
-                    password: userPassword,
-                    firstName: userFirstName,
-                    lastName: userLastName,
-                    age: 20
-                }
-            ))
-            setUserAge(false)
-
-
+            setAgeComponent(false)
+            setRegistrationPage(true)
+            setUserAge(20)
         }
     }
     const onChange = (event, selectedDate) => {
@@ -54,8 +38,6 @@ const BirthdayInfo = ({ userEmail, userPassword, userFirstName, userLastName }) 
         setSelectedDate(formattedDate);
 
     };
-
-
     return (
         <View>
             <View>

@@ -1,16 +1,13 @@
-import { View, Text, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, StyleSheet, Keyboard, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 import React, {useRef} from 'react'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { useTheme } from '@react-navigation/native';
 import { useState } from 'react';
-import { useEffect } from 'react';
-
 
 const PersonalInfo = ({firstName, lastName, setFirstName, setLastName, setAgeComponent, setPersonalPage}) => {
     const { colors } = useTheme();
-    const [email, setEmail] = useState(null)
     const firstInput = useRef(null);
     const secondInput = useRef(null);
+    
     const nextPage = () => {
        if (firstName != null && lastName != null) {
         setPersonalPage(false)
@@ -20,6 +17,8 @@ const PersonalInfo = ({firstName, lastName, setFirstName, setLastName, setAgeCom
     const next = (nextInput) => {
         nextInput.current.focus();
     }
+
+
 
   return (
     <KeyboardAvoidingView behavior='padding' className="" >
