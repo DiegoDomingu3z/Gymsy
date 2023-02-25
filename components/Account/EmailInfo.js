@@ -5,7 +5,7 @@ import PersonalInfo from './PersonalInfo';
 import BirthdayInfo from './BirthdayInfo';
 import { useDispatch } from 'react-redux';
 import { createAccount } from '../../store/Account';
-
+import Ionicons from '@expo/vector-icons/Ionicons';
 const EmailInfo = () => {
     const { colors } = useTheme();
     const [email, setEmail] = useState(null)
@@ -19,6 +19,17 @@ const EmailInfo = () => {
     const firstInput = useRef('');
     const secondInput = useRef('');
     const dispatch = useDispatch()
+
+    const sendEmailValidationRequest = async () => {
+        try {
+            const response = await fetch.get(proccess.env.EMAIL_URL + process.env.EMAIL_API + '&email=' + email);
+            const data = response.json();
+            return data.is_valid_format.value;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     const next = (nextInput) => {
         nextInput.current.focus();
     }
@@ -32,6 +43,11 @@ const EmailInfo = () => {
 
     }
 
+    const goBack = () => {
+        setRegistrationPage(false)
+        setAgeComponent(true)
+    }
+
     const alertUser = (title, message) => {
         Alert.alert(title, message, [
             {
@@ -40,6 +56,7 @@ const EmailInfo = () => {
             },
         ])
     }
+
 
     const registerUser = () => {
         dispatch(createAccount(
@@ -69,7 +86,7 @@ const EmailInfo = () => {
     } else if (ageComponent == true) {
         return (
            
-            <BirthdayInfo setUserAge={setUserAge}  setAgeComponent={setAgeComponent} setRegistrationPage={setRegistrationPage} />
+            <BirthdayInfo setUserAge={setUserAge}  setAgeComponent={setAgeComponent} setRegistrationPage={setRegistrationPage} setPersonalPage={setPersonalPage} />
         )
     }
     if (RegistrationPage == true) {
@@ -77,6 +94,11 @@ const EmailInfo = () => {
             <KeyboardAvoidingView behavior='padding' className="" >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View className="">
+                     <View className="ml-5" >
+                         <TouchableOpacity onPress={() => goBack()}>
+                              <Ionicons name="md-arrow-back" size={32} color="white" />
+                         </TouchableOpacity>
+                      </View>
                     <View className="mt-40">
                         <View className="mt-20">
                             <TextInput onChangeText={setEmail} onSubmitEditing={() => next(secondInput)} ref={firstInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Email"
@@ -96,14 +118,5 @@ const EmailInfo = () => {
     }
 
 }
-
-// const styles = StyleSheet.create({
-//     back:{
-//       backgroundColor: Colors.card
-//     },
-//     light: {
-//       backgroundColor: '#242c40'
-//     }
-//   })
 
 export default EmailInfo

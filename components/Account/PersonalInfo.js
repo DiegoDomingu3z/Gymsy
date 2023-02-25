@@ -26,9 +26,9 @@ const PersonalInfo = ({firstName, lastName, setFirstName, setLastName, setAgeCom
         <View className="">
                 <View className="mt-40">
                     <View className="mt-20">
-                        <TextInput onSubmitEditing={() => next(secondInput)} ref={firstInput}  keyboardAppearance="dark" placeholderTextColor="gray" placeholder="First Name"
+                        <TextInput onSubmitEditing={() => next(secondInput)} ref={firstInput}  keyboardAppearance="dark" placeholderTextColor="gray" placeholder="First Name" value={firstName}
                           onChangeText={setFirstName}  className='bg-[#35353591] rounded text-white mx-4 p-4 py-5 border-slate-600 border-2' returnKeyType="next" />
-                        <TextInput ref={secondInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Last Name" 
+                        <TextInput ref={secondInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Last Name" value={lastName}
                        onChangeText={setLastName} className='bg-[#35353591] rounded text-white mx-4 p-4 py-5 mt-5 border-slate-600 border-2' returnKeyType="go" minLength={6}/>
                         <TouchableOpacity onPress={() => nextPage()} className="p-3 py-4 mx-4 rounded mt-4" style={{backgroundColor: colors.btn2}}>
                             <Text className="text-center b">Continue</Text>
