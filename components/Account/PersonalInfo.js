@@ -1,21 +1,39 @@
-import { View, Text, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, Keyboard, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, Keyboard, TouchableOpacity, Vibration, Alert, } from 'react-native'
 import React, {useRef} from 'react'
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import { useState } from 'react';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const PersonalInfo = ({firstName, lastName, setFirstName, setLastName, setAgeComponent, setPersonalPage}) => {
     const { colors } = useTheme();
     const firstInput = useRef(null);
     const secondInput = useRef(null);
+    const navigation = useNavigation()
+
+    const alertUser = (title, message) => {
+        Alert.alert(title, message, [
+            {
+                text: 'Ok',
+                style: 'cancel',
+            },
+        ])
+    }
     
     const nextPage = () => {
        if (firstName != null && lastName != null) {
         setPersonalPage(false)
         setAgeComponent(true)
+       } else {
+        alertUser("Incorrect Information", "Please enter all your information")
+        Vibration.vibrate(200)
        }
     }
     const next = (nextInput) => {
         nextInput.current.focus();
+    }
+
+    const goBack = () => {
+        navigation.navigate('Welcome')
     }
 
 
@@ -24,6 +42,11 @@ const PersonalInfo = ({firstName, lastName, setFirstName, setLastName, setAgeCom
     <KeyboardAvoidingView behavior='padding' className="" >
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View className="">
+        <View className="ml-5">
+                         <TouchableOpacity onPress={() => goBack()}>
+                              <Ionicons name="md-arrow-back" size={32} color="white" />
+                         </TouchableOpacity>
+                      </View>
                 <View className="mt-40">
                     <View className="mt-20">
                         <TextInput onSubmitEditing={() => next(secondInput)} ref={firstInput}  keyboardAppearance="dark" placeholderTextColor="gray" placeholder="First Name" value={firstName}

@@ -20,16 +20,6 @@ const EmailInfo = () => {
     const secondInput = useRef('');
     const dispatch = useDispatch()
 
-    const sendEmailValidationRequest = async () => {
-        try {
-            const response = await fetch.get(proccess.env.EMAIL_URL + process.env.EMAIL_API + '&email=' + email);
-            const data = response.json();
-            return data.is_valid_format.value;
-        } catch (error) {
-            throw error;
-        }
-    }
-
     const next = (nextInput) => {
         nextInput.current.focus();
     }

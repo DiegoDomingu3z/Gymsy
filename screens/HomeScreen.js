@@ -12,6 +12,7 @@ const HomeScreen = () => {
     const [token, setToken] = useState('')
     const navigation = useNavigation()
     const request = useSelector((state) => state.account.errorCode)
+    const account = useSelector((state) => state.account.account)
 
     useEffect(() => {
         const getData = async () => {
@@ -29,15 +30,15 @@ const HomeScreen = () => {
             } catch (e) {
                 console.log(e.message)
             }
-        }
+        }; 
         getData()
-    }, [])
+    }, [token, account, dispatch])
 
 
     return (
         // Container to give screen entire view
         <SafeAreaView>
-            <Text className='text-red-500'>THis is working</Text>
+            <Text className='text-red-500'>{account.firstName}</Text>
             <View>
                 {token ?
                     <View>
