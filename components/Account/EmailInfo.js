@@ -1,11 +1,12 @@
 import { View, Text, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, StyleSheet, Keyboard, TouchableOpacity, Vibration, Alert,} from 'react-native'
 import React, { useRef, useState } from 'react'
-import { useTheme } from '@react-navigation/native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import PersonalInfo from './PersonalInfo';
 import BirthdayInfo from './BirthdayInfo';
 import { useDispatch } from 'react-redux';
 import { createAccount } from '../../store/Account';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const EmailInfo = () => {
     const { colors } = useTheme();
     const [email, setEmail] = useState(null)
@@ -19,6 +20,7 @@ const EmailInfo = () => {
     const firstInput = useRef('');
     const secondInput = useRef('');
     const dispatch = useDispatch()
+    const navigation = useNavigation()
 
     const next = (nextInput) => {
         nextInput.current.focus();
@@ -48,25 +50,37 @@ const EmailInfo = () => {
     }
 
 
-    const registerUser = () => {
-        dispatch(createAccount(
-            {
-                email: email,
-                password: password,
-                firstName: firstName,
-                lastName: lastName,
-                age: 20
-            }
-            )).then((result) => {
-                console.log(result.meta.requestStatus)
-                if (result.meta.requestStatus == "rejected") {
-                    console.log(result)
-                    Vibration.vibrate(200)
-                    alertUser('Account Already Exists','This Email is associated with an account already')
-                } else if (result.meta.requestStatus == "fulfilled") {
-                    console.log( "Success")
+    const registerUser = async () => {
+        try {
+            dispatch(createAccount(
+                {
+                    email: email,
+                    password: password,
+                    firstName: firstName,
+                    lastName: lastName,
+                    age: 20
                 }
-            })
+                )).then(async (result) => {
+                    console.log(result.meta.requestStatus)
+                    if (result.meta.requestStatus == "rejected") {
+                        console.log(result)
+                        Vibration.vibrate(200)
+                        alertUser('Account Already Exists','This Email is associated with an account already')
+                    } else if (result.meta.requestStatus == "fulfilled") {
+                        console.log( "succes", result)
+                        try {
+                            await AsyncStorage.setItem('@authToken', result.payload) 
+                            navigation.navigate("Home")
+                        } catch (error) {
+                            console.log(error)
+                        }
+                        
+                    }
+                })
+        } catch (error) {
+            console.log(error)
+        }
+           
         }
 
     if (personalPage == true) {
