@@ -2,7 +2,6 @@ import { View, Text, useColorScheme, StyleSheet, Appearance, AppearanceProvider}
 import React from 'react'
 import Welcome from '../components/Welcome'
 import { useTheme } from '@react-navigation/native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 
 

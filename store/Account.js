@@ -71,6 +71,8 @@ export const logout = createAsyncThunk(
 )
 
 
+
+
 export const AccountSlice = createSlice({
     name: 'account',
     initialState: {
@@ -145,6 +147,7 @@ export const AccountSlice = createSlice({
                 state.logoutCode = action.error.code
                 state.errorMessage = action.error.message
             })
+
 
 
     }

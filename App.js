@@ -1,12 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, useColorScheme, View } from 'react-native';
 import * as React from "react"
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen'
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { Provider } from 'react-redux';
 import { store } from './store'
 
