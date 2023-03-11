@@ -12,6 +12,7 @@ export const createAccount = createAsyncThunk(
         try {
             const res = await api.post('account', userData)
             .then(res => res.data)
+            console.log(res, "this the res")
             return res
         } catch (error) {
             throw error
@@ -26,7 +27,7 @@ export const logInAccount = createAsyncThunk(
             const res = await api.post('account/login', userData)
                 .then(res => res.data)
             console.log(res, "Its working")
-            return res
+                return res
         } catch (error) {
             throw error
         }
@@ -68,6 +69,8 @@ export const logout = createAsyncThunk(
         }
     }
 )
+
+
 
 
 export const AccountSlice = createSlice({
@@ -144,6 +147,7 @@ export const AccountSlice = createSlice({
                 state.logoutCode = action.error.code
                 state.errorMessage = action.error.message
             })
+
 
 
     }

@@ -6,7 +6,7 @@ import { Vibration, Alert } from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useDispatch } from 'react-redux';
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BirthdayInfo = ({setUserAge,  setAgeComponent, setRegistrationPage, setPersonalPage }) => {
     const { colors } = useTheme();
@@ -22,7 +22,7 @@ const BirthdayInfo = ({setUserAge,  setAgeComponent, setRegistrationPage, setPer
             },
         ])
     }
-    const Register = () => {
+    const Register = async () => {
         var userDate = new Date(selectedDate);
         let ofAge = new Date(date.getFullYear() - 18, date.getMonth(), date.getDate())
         if (ofAge < userDate.getTime()) {
@@ -33,6 +33,7 @@ const BirthdayInfo = ({setUserAge,  setAgeComponent, setRegistrationPage, setPer
             alertUser('No Date Selected','Please select your birthday')
             Vibration.vibrate(200)
         } else {
+            await AsyncStorage.removeItem('@firstLogin')
             console.log(userDate)
             setDisplayDate(selectedDate)
             setAgeComponent(false)
