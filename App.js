@@ -12,22 +12,26 @@ import AppLightTheme from './themes/appLightTheme';
 import AppDarkTheme from './themes/appDarkTheme';
 import SignUp from './screens/AccountCreation/SignUp';
 import AccountInfo from './screens/AccountCreation/AccountInfo';
+import FriendsScreen from './screens/FriendsScreen';
+import ChatScreen from './screens/ChatScreen';
 // Creates each stack
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
-const colorScheme = useColorScheme()
+  const colorScheme = useColorScheme()
   return (
     // init navigation's, add all screens here
     <Provider store={store}>
       <NavigationContainer theme={colorScheme == 'light' ? AppLightTheme : AppDarkTheme}>
         <Stack.Navigator>
-          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{headerShown: false}} />
-          <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false, gestureEnabled: false, gestureDirection: 'horizontal'}} />
-          <Stack.Screen name="AccountInfo" component={AccountInfo} options={{headerShown: false }} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} options={{ headerShown: false }} />
+          <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false, gestureEnabled: false, gestureDirection: 'horizontal' }} />
+          <Stack.Screen name="AccountInfo" component={AccountInfo} options={{ headerShown: false }} />
           <Stack.Screen name='Home' component={HomeScreen} options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name='FriendScreen' component={FriendsScreen} options={{ headerShown: false, animationEnabled: false }} />
+          <Stack.Screen name='ChatScreen' component={ChatScreen} options={{ headerShown: false, animationEnabled: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

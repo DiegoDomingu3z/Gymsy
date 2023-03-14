@@ -49,7 +49,7 @@ const HomeScreen = () => {
         try {
             console.log("THIS WORKING")
             const loco = `${location.latitude}, ${location.longitude}`
-            const radius = 25000
+            const radius = 45000
             const type = 'gym';
             const url = `${API_URL}?location=${loco}&radius=${radius}&type=${type}&key=${API_KEY}`;
             console.log(url)
