@@ -9,9 +9,10 @@ const AppDarkTheme = {
     card: '#191919',
     border: '#444859',
     primary: '#f9f9f9',
-    background: '#121212',
-    btn1: '#009FB7',
-    btn2: '#FE4A49'
+    background: '#02111B',
+    btn1: '#FCFCFC',
+    btn2: '#5D737E',
+    transparent: '#00000080'
   }
 }
 

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { createAccount } from '../../store/Account';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logInAccount } from '../../store/Account'
 const EmailInfo = () => {
     const { colors } = useTheme();
     const [email, setEmail] = useState(null)
@@ -69,7 +70,15 @@ const EmailInfo = () => {
                 } else if (result.meta.requestStatus == "fulfilled") {
                     console.log("succes", result)
                     try {
-                        await AsyncStorage.setItem('@authToken', result.payload)
+                        dispatch(logInAccount({
+                            email: email,
+                            password: password
+                        }
+                        )).then((res => {
+                            console.log(res)
+                            AsyncStorage.setItem('@authToken', res.payload.accessToken)
+                            AsyncStorage.setItem('@refreshToken', res.payload.accessToken)
+                        }))
                         navigation.navigate("Home")
                     } catch (error) {
                         console.log(error)
@@ -97,20 +106,21 @@ const EmailInfo = () => {
         return (
             <KeyboardAvoidingView behavior='padding' className="" >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View className="">
-                        <View className="ml-5" >
-                            <TouchableOpacity onPress={() => goBack()}>
-                                <Ionicons name="md-arrow-back" size={32} color="white" />
-                            </TouchableOpacity>
-                        </View>
-                        <View className="mt-40">
+                    <View className="flex relative">
+
+                        <TouchableOpacity onPress={() => goBack()} className='absolute top-2 left-5 bg-gray-100 p-1 rounded-full'>
+                            <Ionicons name="md-chevron-back" size={28} color="black" />
+                        </TouchableOpacity>
+
+                        <View className="mt-40 mx-12">
                             <View className="mt-20">
                                 <TextInput onChangeText={setEmail} onSubmitEditing={() => next(secondInput)} ref={firstInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Email"
-                                    className='bg-[#35353591] rounded text-white mx-4 p-4 py-5 border-slate-600 border-2' returnKeyType="next" />
-                                <Text className="text-center mt-4 text-white">Create a password with at least 6 characters</Text>
+                                    className='bg-[#35353591] rounded-2xl p-4 py-5 text-white border-slate-600 border-2' returnKeyType="next" />
+
                                 <TextInput onChangeText={setPassword} ref={secondInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Password" secureTextEntry={true}
-                                    className='bg-[#35353591] rounded text-white mx-4 p-4 py-5 mt-1 border-slate-600 border-2' returnKeyType="go" minLength={6} />
-                                <TouchableOpacity onPress={() => registerUser()} className="p-3 py-4 mx-4 rounded mt-4" style={{ backgroundColor: colors.btn1 }}>
+                                    className='bg-[#35353591]  rounded-2xl p-4  py-5 mt-5  text-white border-slate-600 border-2' returnKeyType="go" minLength={6} />
+                                <Text className="text-center mt-4 text-white text-xs mb-7">Create a password with at least 6 characters</Text>
+                                <TouchableOpacity onPress={() => registerUser()} className="text-center  py-5 rounded-2xl" style={{ backgroundColor: colors.btn1 }}>
                                     <Text className="text-center b">Continue</Text>
                                 </TouchableOpacity>
                             </View>

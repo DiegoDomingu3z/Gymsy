@@ -1,31 +1,47 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/native'
-
+import { useNavigation, useTheme } from '@react-navigation/native'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 const Welcome = () => {
     const navigation = useNavigation()
-  return (
-    <View className="relative h-screen">
-        <SafeAreaView>
-            <View className="flex flex-col justify-center items-center mt-40">
-      <Image source={require('../assets/logos/image.png')} className="object-scale-down h-80 w-80 max-w-none"/>
+    const { colors } = useTheme();
+    return (
+
+        <View className='relative flex-1 justify-center items-center'>
+            <View>
+                <Image source={require('../assets/logos/logo.png')} className='object-scale-down h-100 w-50 max-w-none mb-40' />
             </View>
-            <View className="mt-40">
-                <View className="flex flex-row items-center justify-center space-x-6 mt-16">
-                    <TouchableOpacity onPress={() => navigation.navigate("Login")} className="bg-[#FE4A49] rounded-lg">
-                    <Text className="p-4 px-16 rounded-lg text-white">Log In</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity className="bg-[#009FB7] rounded-lg" onPress={() => navigation.navigate("SignUp")}>
-                    <Text className="p-4 px-16 text-white">Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
+            <View style={styles.transparent} className='absolute bottom-16 flex-1 pb-6 pt-6 justify-center items-center w-11/12 rounded-3xl'
+            >
+                <TouchableOpacity
+                    className="rounded-2xl py-3 mb-4 w-11/12" style={{ backgroundColor: colors.btn1 }}
+                    onPress={() => navigation.navigate('Login')}
+                >
+                    <Text className="text-black text-center font-bold text-lg">Sign In</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: colors.btn2 }} onPress={() => navigation.navigate('SignUp')}
+                    className="rounded-2xl py-3 w-11/12"
+                >
+                    <Text className="text-white text-center font-bold text-lg ">Create Account</Text>
+                </TouchableOpacity>
             </View>
-        </SafeAreaView>
-    </View>
-  )
+        </View >
+    )
 }
+
+const styles = StyleSheet.create({
+    bg: {
+        backgroundColor: Colors.background
+    },
+    transparent: {
+        backgroundColor: '#00000060'
+    }
+})
+
+
 
 
 
 export default Welcome
+

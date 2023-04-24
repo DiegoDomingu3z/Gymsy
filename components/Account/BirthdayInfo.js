@@ -59,38 +59,40 @@ const BirthdayInfo = ({ setUserAge, setAgeComponent, setRegistrationPage, setPer
 
     };
     return (
-        <View>
-            <View className="ml-5" >
-                <TouchableOpacity onPress={() => goBack()}>
-                    <Ionicons name="md-arrow-back" size={32} color="white" />
+        <View className='relative'>
+            <View className='flex'>
+
+                <TouchableOpacity onPress={() => goBack()} className='absolute top-2 left-5 bg-gray-100 p-1 rounded-full'>
+                    <Ionicons name="md-chevron-back" size={28} color="black" />
                 </TouchableOpacity>
-            </View>
-            <View>
-                <Text className="text-white text-5xl text-center mt-20">
-                    Tell us Your Birthday!
-                </Text>
-            </View>
-            <View className="border-b-4 border-indigo-500 mt-36 mx-5">
-                <Text className="text-white text-center text-lg">{selectedDate}</Text>
-            </View>
 
-
-
-
-            <View className="mt-20">
-                <View className="mb-16">
-                    <TouchableOpacity onPress={() => Register()} className="py-4 mx-6 rounded mt-4" style={{ backgroundColor: colors.btn2 }}>
-                        <Text className="text-center text-white">Continue</Text>
-                    </TouchableOpacity>
-
+                <View className='mt-10'>
+                    <Text className="text-white text-5xl text-center mt-20">
+                        Tell us Your Birthday!
+                    </Text>
                 </View>
-                <DateTimePicker
-                    testID="dateTimePicker"
-                    value={date}
-                    mode="date"
-                    display="spinner"
-                    onChange={onChange}
-                />
+                <View className="border-b-4 border-indigo-500 mt-20 mx-5">
+                    <Text className="text-white text-center text-lg">{selectedDate}</Text>
+                </View>
+
+
+
+
+                <View className="mt-14">
+                    <View className="mb-16">
+                        <TouchableOpacity onPress={() => Register()} className="py-4 mx-6 rounded-2xl mt-4" style={{ backgroundColor: colors.btn2 }}>
+                            <Text className="text-center text-white">Continue</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode="date"
+                        display="spinner"
+                        onChange={onChange}
+                    />
+                </View>
             </View>
         </View>
 

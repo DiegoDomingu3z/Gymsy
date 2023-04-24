@@ -11,7 +11,8 @@ const AppLightTheme = {
     primary: '#333333',
     background: '#ffffff',
     button: '#f9f9f9',
-    btn2: '#FE4A49'
+    btn2: '#FE4A49',
+    transparent: '#00000080'
   }
 }
 
