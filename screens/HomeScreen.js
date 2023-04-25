@@ -129,7 +129,7 @@ const HomeScreen = () => {
             <Header />
             <View><TouchableOpacity onPress={() => getGyms()}><Text>GET GYMS</Text></TouchableOpacity></View>
             <ScrollView></ScrollView>
-            <MainFooter />
+
         </SafeAreaView>
     )
 }

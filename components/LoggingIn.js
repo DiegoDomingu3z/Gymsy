@@ -38,9 +38,10 @@ const LoggingIn = () => {
             if (request.type == "account/login/rejected") {
                 alertUser()
             } else {
-                AsyncStorage.setItem('@authToken', request.payload)
+                AsyncStorage.setItem('@authToken', request.payload.accessToken)
+                AsyncStorage.setItem('@refreshToken', request.payload.accessToken)
                 // @ts-ignore
-                navigation.navigate("Home")
+                navigation.navigate("Tabs", { screen: "Home" })
             }
         } catch (error) {
             console.log(error)
