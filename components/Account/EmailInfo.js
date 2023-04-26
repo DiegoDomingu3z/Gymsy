@@ -27,14 +27,6 @@ const EmailInfo = () => {
         nextInput.current.focus();
     }
 
-    const nextPage = () => {
-        if (password != null && email != null) {
-            setRegistrationPage(true)
-            setPersonalPage(true)
-            console.log(personalPage)
-        }
-
-    }
 
     const goBack = () => {
         setRegistrationPage(false)
@@ -53,39 +45,50 @@ const EmailInfo = () => {
 
     const registerUser = async () => {
         try {
-            dispatch(createAccount(
-                {
-                    email: email,
-                    password: password,
-                    firstName: firstName,
-                    lastName: lastName,
-                    age: userAge
-                }
-            )).then(async (result) => {
-                console.log(result.meta.requestStatus)
-                if (result.meta.requestStatus == "rejected") {
-                    console.log(result)
-                    Vibration.vibrate(200)
-                    alertUser('Account Already Exists', 'This Email is associated with an account already')
-                } else if (result.meta.requestStatus == "fulfilled") {
-                    console.log("succes", result)
-                    try {
-                        dispatch(logInAccount({
-                            email: email,
-                            password: password
-                        }
-                        )).then((res => {
-                            console.log(res)
-                            AsyncStorage.setItem('@authToken', res.payload.accessToken)
-                            AsyncStorage.setItem('@refreshToken', res.payload.accessToken)
-                        }))
-                        navigation.navigate("Home")
-                    } catch (error) {
-                        console.log(error)
-                    }
+            if ((email == null || email == '') ||
+                (password == null || password == '')) {
+                alertUser("Incorrect Information", "Please enter all account information")
+                Vibration.vibrate(200)
+            } else if (!email.includes('@')) {
+                alertUser("Invalid email", "Please enter a valid username")
+                Vibration.vibrate(200)
+            }
+            else {
 
-                }
-            })
+                dispatch(createAccount(
+                    {
+                        email: email,
+                        password: password,
+                        firstName: firstName,
+                        lastName: lastName,
+                        age: userAge
+                    }
+                )).then(async (result) => {
+                    console.log(result.meta.requestStatus)
+                    if (result.meta.requestStatus == "rejected") {
+                        console.log(result)
+                        Vibration.vibrate(200)
+                        alertUser('Account Already Exists', 'This Email is associated with an account already')
+                    } else if (result.meta.requestStatus == "fulfilled") {
+                        console.log("succes", result)
+                        try {
+                            dispatch(logInAccount({
+                                email: email,
+                                password: password
+                            }
+                            )).then((res => {
+                                console.log(res)
+                                AsyncStorage.setItem('@authToken', res.payload.accessToken)
+                                AsyncStorage.setItem('@refreshToken', res.payload.accessToken)
+                            }))
+                            navigation.navigate("Tabs", { screen: "Home" })
+                        } catch (error) {
+                            console.log(error)
+                        }
+
+                    }
+                })
+            }
         } catch (error) {
             console.log(error)
         }
@@ -113,14 +116,19 @@ const EmailInfo = () => {
                         </TouchableOpacity>
 
                         <View className="mt-40 mx-12">
-                            <View className="mt-20">
+                            <View className="">
                                 <TextInput onChangeText={setEmail} onSubmitEditing={() => next(secondInput)} ref={firstInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Email"
                                     className='bg-[#35353591] rounded-2xl p-4 py-5 text-white border-slate-600 border-2' returnKeyType="next" />
 
                                 <TextInput onChangeText={setPassword} ref={secondInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Password" secureTextEntry={true}
                                     className='bg-[#35353591]  rounded-2xl p-4  py-5 mt-5  text-white border-slate-600 border-2' returnKeyType="go" minLength={6} />
                                 <Text className="text-center mt-4 text-white text-xs mb-7">Create a password with at least 6 characters</Text>
-                                <TouchableOpacity onPress={() => registerUser()} className="text-center  py-5 rounded-2xl" style={{ backgroundColor: colors.btn1 }}>
+                                <TouchableOpacity onPress={() => registerUser()} className="text-center  py-5 rounded-2xl"
+                                    style={{
+                                        backgroundColor: (email == null || email == '')
+                                            || (password == null || password == '') ? colors.btn2 : colors.btn1
+                                    }}
+                                >
                                     <Text className="text-center b">Continue</Text>
                                 </TouchableOpacity>
                             </View>

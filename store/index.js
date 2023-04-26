@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import accountReducer from './Account'
 import locationReducer from './location'
+import gymReducer from './Gyms'
 
 
 
@@ -9,6 +10,7 @@ import locationReducer from './location'
 export const store = configureStore({
     reducer: {
         account: accountReducer,
-        location: locationReducer
+        location: locationReducer,
+        gym: gymReducer
     }
 })

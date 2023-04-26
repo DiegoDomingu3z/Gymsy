@@ -13,6 +13,7 @@ const BirthdayInfo = ({ setUserAge, setAgeComponent, setRegistrationPage, setPer
     const [date, setDate] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState('')
     const [displayDate, setDisplayDate] = useState('')
+    const [isAllowed, setAllowed] = useState(false)
     const dispatch = useDispatch()
     const alertUser = (title, message) => {
         Alert.alert(title, message, [
@@ -56,6 +57,14 @@ const BirthdayInfo = ({ setUserAge, setAgeComponent, setRegistrationPage, setPer
         const formattedDate = currentDate.slice(4, 10) + "," + currentDate.slice(10)
         const ageToSend = formattedDate.slice(8)
         setSelectedDate(formattedDate);
+        var userDate = new Date(selectedDate);
+        let ofAge = new Date(date.getFullYear() - 18, date.getMonth(), date.getDate() + 1)
+        var userDate = new Date(selectedDate);
+        if (ofAge < userDate.getTime()) {
+            setAllowed(true)
+        } else {
+            setAllowed(false)
+        }
 
     };
     return (
@@ -80,8 +89,12 @@ const BirthdayInfo = ({ setUserAge, setAgeComponent, setRegistrationPage, setPer
 
                 <View className="mt-14">
                     <View className="mb-16">
-                        <TouchableOpacity onPress={() => Register()} className="py-4 mx-6 rounded-2xl mt-4" style={{ backgroundColor: colors.btn2 }}>
-                            <Text className="text-center text-white">Continue</Text>
+                        <TouchableOpacity onPress={() => Register()} className="py-4 mx-6 rounded-2xl mt-4" style={{
+                            backgroundColor: (selectedDate) ? colors.btn1 : colors.btn2,
+                        }}>
+                            <Text className="text-center" style={{
+                                color: (isAllowed == true) ? '#FF0000' : '#000000'
+                            }}>Continue</Text>
                         </TouchableOpacity>
 
                     </View>

@@ -3,12 +3,15 @@ import { api } from "../services/ApiService";
 
 
 
+
+
+
 export const settingLocation = createAsyncThunk(
     'setUserLocation',
     async (userlocation) => {
         try {
-            console.log(userlocation.toekn, "THIS THE FUCKING TOKEN")
-            const res = await api.post('api/account/location', userlocation, {
+            console.log(userlocation.token, "THIS THE FUCKING TOKEN")
+            const res = await api.post('api/accounts/location', userlocation, {
                 headers: {
                     Authorization: `${userlocation.token}`
                 }
@@ -19,7 +22,7 @@ export const settingLocation = createAsyncThunk(
         } catch (error) {
             console.log(error, "did not connect")
             console.log(error.message)
-            return error
+            throw error
         }
     }
 )
@@ -38,7 +41,7 @@ export const gettingLocation = createAsyncThunk(
             return res
         } catch (error) {
             console.log(error)
-            return error
+            throw error
         }
 
     }
@@ -67,12 +70,13 @@ export const LocationSlice = createSlice({
             })
             .addCase(settingLocation.fulfilled, (state, action) => {
                 state.loading = false
+                console.log(action.payload, "???PAYLOAD")
                 state.location = action.payload
             })
             .addCase(settingLocation.rejected, (state, action) => {
                 state.loading = true
-                state.errorCode = action.error.code
-                state.createAccountMessage = action.error.message
+                // state.errorCode = action.error.code
+                // state.createAccountMessage = action.error.message
             })
             .addCase(gettingLocation.pending, (state) => {
                 state.loading = true

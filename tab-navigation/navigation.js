@@ -9,24 +9,51 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 const Tabs = () => {
     return (
         <Tab.Navigator
-            activeColor="#000000"
+            activeColor={'#FFFFFF'}
             inactiveColor="#3e2465"
             barStyle={{
                 elevation: 0,
                 backgroundColor: '#00000060',
                 height: 80,
-            }} >
-            <Tab.Screen name="FriendsScreen" component={FriendsScreen} options={{ headerShown: false, animationEnabled: false }}
-            />
-            <Tab.Screen name="Home" component={HomeScreen} options={{
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="people-outline" color={'#000000'} size={20} />
-                ),
+            }}
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, size, colour }) => {
+                    let iconName;
+                    let color;
+                    if (route.name == "Home") {
+                        iconName = focused ? "ios-home" : "ios-home-outline"
+                        color = focused ? '#000000' : '#FFFFFF'
+                    } else if (route.name === "FriendsScreen") {
+                        iconName = focused ? "ios-people-circle" : "ios-people-circle-outline"
+                        color = focused ? '#000000' : '#FFFFFF'
+                    } else if (route.name === "ChatScreen") {
+                        iconName = focused ? "ios-chatbubbles" : "ios-chatbubbles-outline"
+                        color = focused ? '#000000' : '#FFFFFF'
+                    }
+                    return <Ionicons name={iconName} size={25} color={color} />
+                },
+            })} tabBarOptions={{
+                activeTintColor: 'black',
+                inactiveTintColor: 'black',
+                showLabel: false,
+            }}>
+            <Tab.Screen name="FriendsScreen" component={FriendsScreen} options={{
                 tabBarLabel: null, // add this option
                 headerShown: false,
-                animationEnabled: false
+                animationEnabled: true
+            }}
+            />
+            <Tab.Screen name="Home" component={HomeScreen} options={{
+                tabBarLabel: null, // add this option
+                headerShown: false,
+                animationEnabled: true
             }} />
-            <Tab.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false, animationEnabled: false }} />
+            <Tab.Screen name="ChatScreen" component={ChatScreen}
+                options={{
+                    tabBarLabel: null, // add this option
+                    headerShown: false,
+                    animationEnabled: true
+                }} />
         </Tab.Navigator>
     )
 }

@@ -24,7 +24,7 @@ const PersonalInfo = ({ firstName, lastName, setFirstName, setLastName, setAgeCo
             setPersonalPage(false)
             setAgeComponent(true)
         } else {
-            alertUser("Incorrect Information", "Please enter all your information")
+            alertUser("Incorrect Information", "Please enter all account information")
             Vibration.vibrate(200)
         }
     }
@@ -51,7 +51,13 @@ const PersonalInfo = ({ firstName, lastName, setFirstName, setLastName, setAgeCo
                                 onChangeText={setFirstName} className='bg-[#35353591] rounded-2xl p-4 py-5 text-white border-slate-600 border-2' returnKeyType="next" />
                             <TextInput ref={secondInput} keyboardAppearance="dark" placeholderTextColor="gray" placeholder="Last Name" value={lastName}
                                 onChangeText={setLastName} className='bg-[#35353591]  rounded-2xl p-4  py-5 mt-5 mb-7 text-white border-slate-600 border-2 ' returnKeyType="go" minLength={6} />
-                            <TouchableOpacity onPress={() => nextPage()} className="text-center  py-5 rounded-2xl" style={{ backgroundColor: colors.btn2 }}>
+                            <TouchableOpacity onPress={() => nextPage()} className="text-center  py-5 rounded-2xl"
+                                style={{
+                                    backgroundColor: (firstName == null || firstName == '')
+                                        || (lastName == null || lastName == '') ? colors.btn2 : colors.btn1
+                                }}
+                                disabled={(firstName == null || firstName == '')
+                                    || (lastName == null || lastName == '')}>
                                 <Text className="text-center">Continue</Text>
                             </TouchableOpacity>
                         </View>
