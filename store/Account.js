@@ -11,7 +11,7 @@ export const createAccount = createAsyncThunk(
     async (userData) => {
         try {
             const res = await api.post('account', userData)
-            .then(res => res.data)
+                .then(res => res.data)
             console.log(res, "this the res")
             return res
         } catch (error) {
@@ -27,7 +27,7 @@ export const logInAccount = createAsyncThunk(
             const res = await api.post('account/login', userData)
                 .then(res => res.data)
             console.log(res, "Its working")
-                return res
+            return res
         } catch (error) {
             throw error
         }
@@ -87,7 +87,7 @@ export const AccountSlice = createSlice({
         createAccountMessage: ''
     },
     reducers: {
-        
+
 
     },
 

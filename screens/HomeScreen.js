@@ -18,54 +18,9 @@ const HomeScreen = () => {
     const navigation = useNavigation()
     const request = useSelector((state) => state.account.errorCode)
     const account = useSelector((state) => state.account.account)
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
-    const API_KEY = 'AIzaSyBW0_D64IXNofGWW8SRqtmDddh24glY7Wg';
-    const API_URL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 
 
-    // FIX THIS
-    const locationPermission = async () => {
-        console.log("Working")
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-            setErrorMsg('Permission to access location was denied');
-        } else {
-            let geoLocation = await Location.getCurrentPositionAsync({});
-            let toki = await AsyncStorage.getItem('@authToken')
-            let loki = {
-                latitude: geoLocation.coords.latitude,
-                longitude: geoLocation.coords.longitude,
-                token: toki
-            }
-            console.log(toki)
-            dispatch(settingLocation(loki))
-            setLocation(geoLocation.coords);
-        }
-    }
 
-
-    const getGyms = () => {
-        try {
-            console.log("THIS WORKING")
-            const loco = `${location.latitude}, ${location.longitude}`
-            const radius = 45000
-            const type = 'gym';
-            const url = `${API_URL}?location=${loco}&radius=${radius}&type=${type}&key=${API_KEY}`;
-            console.log(url)
-            fetch(url)
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log(data.results, 'results'); // This will log an array of nearby gyms
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
 
 

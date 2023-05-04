@@ -14,6 +14,7 @@ import AccountInfo from './screens/AccountCreation/AccountInfo';
 import FriendsScreen from './screens/FriendsScreen';
 import ChatScreen from './screens/ChatScreen';
 import Tabs from './tab-navigation/navigation';
+import GymsScreen from './screens/GymsScreen';
 // Creates each stack
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
           <Stack.Screen name='SignUp' component={SignUp} options={{ headerShown: false, gestureEnabled: false, gestureDirection: 'horizontal' }} />
           <Stack.Screen name="AccountInfo" component={AccountInfo} options={{ headerShown: false }} />
           <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name='Gyms' component={GymsScreen} options={{ headerShown: false, gestureEnabled: false, gestureDirection: 'horizontal' }} />
           <Stack.Screen name='Tabs' component={Tabs} options={{ headerShown: false, animationEnabled: false }} />
 
         </Stack.Navigator>

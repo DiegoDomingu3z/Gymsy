@@ -81,7 +81,7 @@ const EmailInfo = () => {
                                 AsyncStorage.setItem('@authToken', res.payload.accessToken)
                                 AsyncStorage.setItem('@refreshToken', res.payload.accessToken)
                             }))
-                            navigation.navigate("Tabs", { screen: "Home" })
+                            navigation.navigate("Gyms")
                         } catch (error) {
                             console.log(error)
                         }

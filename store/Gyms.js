@@ -6,9 +6,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getGymsAroundMe = createAsyncThunk(
     'account/getGymsAroundMe',
-    async () => {
+    async (token) => {
         try {
-            const res = await api.get('/api/gym/around-me')
+            console.log('Being called')
+            const res = await api.get('/api/gym/around-me', {
+                headers: {
+                    Authorization: token
+                }
+            })
                 .then(res => res.data)
             console.log(res)
             return res
@@ -22,7 +27,7 @@ export const getGymsAroundMe = createAsyncThunk(
 
 
 export const GymSlice = createSlice({
-    name: 'account',
+    name: 'Gym',
     initialState: {
         loading: false,
         errorCode: '',
@@ -42,6 +47,7 @@ export const GymSlice = createSlice({
             .addCase(getGymsAroundMe.fulfilled, (state, action) => {
                 state.loading = false
                 state.gyms = action.payload
+                console.log(state.gyms, 'THIS THE STATE IN REDUX')
             })
             .addCase(getGymsAroundMe.rejected, (state, action) => {
                 state.loading = true

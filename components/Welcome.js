@@ -3,9 +3,14 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation, useTheme } from '@react-navigation/native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const Welcome = () => {
     const navigation = useNavigation()
     const { colors } = useTheme();
+    const removeToken = async () => {
+        navigation.navigate('SignUp')
+        AsyncStorage.removeItem('@firstLogin')
+    }
     return (
 
         <View className='relative flex-1 justify-center items-center'>
@@ -20,10 +25,10 @@ const Welcome = () => {
                 >
                     <Text className="text-black text-center font-bold text-lg">Sign In</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ backgroundColor: colors.btn2 }} onPress={() => navigation.navigate('SignUp')}
+                <TouchableOpacity style={{ backgroundColor: colors.btn2 }} onPress={() => removeToken()}
                     className="rounded-2xl py-3 w-11/12"
                 >
-                    <Text className="text-white text-center font-bold text-lg ">Create Account</Text>
+                    <Text className="text-white text-center font-bold text-lg " >Create Account</Text>
                 </TouchableOpacity>
             </View>
         </View >
