@@ -56,12 +56,8 @@ const GymsScreen = () => {
     }, [dispatch])
 
     return (
-        <SafeAreaView>
-
-            <View>
-
-                <ShowGyms />
-            </View>
+        <SafeAreaView className=''>
+            <ShowGyms />
         </SafeAreaView>
     )
 }

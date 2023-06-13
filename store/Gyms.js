@@ -47,7 +47,7 @@ export const GymSlice = createSlice({
             .addCase(getGymsAroundMe.fulfilled, (state, action) => {
                 state.loading = false
                 state.gyms = action.payload
-                console.log(state.gyms, 'THIS THE STATE IN REDUX')
+
             })
             .addCase(getGymsAroundMe.rejected, (state, action) => {
                 state.loading = true
