@@ -18,7 +18,7 @@ const ShowGyms = () => {
         console.log(gyms.length, 'first gym')
     }, [])
     return (
-        <View className='h-screen'>
+        <View className='h-screen '>
             {/* <Text>Yoooo</Text> */}
             {gyms.length > 0 ?
                 <FlashList
